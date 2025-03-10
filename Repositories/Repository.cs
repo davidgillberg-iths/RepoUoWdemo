@@ -3,14 +3,22 @@ using RepoUoWdemo.Data;
 
 namespace RepoUoWdemo.Repositories
 {
-    public class Repository<T> : IRepository<T> where T : class // "where T : class" säkerställer att endast referenstyper (databasmodeller) används. 
+    // "where T : class" säkerställer att endast referenstyper (databasmodeller) används.
+    public class Repository<T> : IRepository<T> where T : class 
     {
         private readonly ApplicationDbContext _context;
+
+        // DbSet<T> är en samling som representerar en databas-tabell i Entity Framework Core.
+        // _dbSet är ett fält som lagrar den aktuella databastabellen för en given entitet (T).
+        // Set = samling
         private readonly DbSet<T> _dbSet;
 
         public Repository(ApplicationDbContext context)
         {
             _context = context;
+
+            // Om T är Product, returnerar context.Set<Product>() en referens till Products-tabellen i databasen.
+            // Set<T>() används för att dynamiskt komma åt en databas-tabell utan att hårdkoda den.
             _dbSet = context.Set<T>();
         }
 
